@@ -67,6 +67,157 @@ async function run() {
     const facilityCollection = database.collection('facility')
     const bookingCollection = database.collection('booking')
 
+    app.post("/seed-facilities", async (req, res) => {
+    const facilities = [
+      {
+        name: "Elite Football Turf",
+        facility_type: "Football",
+        image: "https://images.unsplash.com/photo-1556056504-5c7696c4c28d",
+        location: "Dhanmondi, Dhaka",
+        price_per_hour: 1500,
+        capacity: 12,
+        available_slots: ["08:00 AM", "10:00 AM", "04:00 PM"],
+        description: "A premium football turf with lighting and seating.",
+        owner_email: "admin@sportnest.com",
+        booking_count: 0,
+      },
+      {
+        name: "GreenZone Football Arena",
+        facility_type: "Football",
+        image: "https://images.unsplash.com/photo-1522778119026-d647f0596c20",
+        location: "Mirpur, Dhaka",
+        price_per_hour: 1200,
+        capacity: 10,
+        available_slots: ["09:00 AM", "03:00 PM", "07:00 PM"],
+        description: "Well-maintained football ground for friendly matches.",
+        owner_email: "admin@sportnest.com",
+        booking_count: 0,
+      },
+      {
+        name: "Boundary Cricket Ground",
+        facility_type: "Cricket",
+        image: "https://images.unsplash.com/photo-1531415074968-036ba1b575da",
+        location: "Uttara, Dhaka",
+        price_per_hour: 1800,
+        capacity: 22,
+        available_slots: ["07:00 AM", "02:00 PM", "06:00 PM"],
+        description: "Open cricket ground suitable for practice and matches.",
+        owner_email: "admin@sportnest.com",
+        booking_count: 0,
+      },
+      {
+        name: "PowerPlay Cricket Nets",
+        facility_type: "Cricket",
+        image: "https://images.unsplash.com/photo-1624526267942-ab0ff8a3e972",
+        location: "Bashundhara, Dhaka",
+        price_per_hour: 900,
+        capacity: 8,
+        available_slots: ["08:00 AM", "12:00 PM", "05:00 PM"],
+        description: "Cricket practice nets with quality pitch surface.",
+        owner_email: "admin@sportnest.com",
+        booking_count: 0,
+      },
+      {
+        name: "Smash Badminton Court",
+        facility_type: "Badminton",
+        image: "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea",
+        location: "Banani, Dhaka",
+        price_per_hour: 700,
+        capacity: 4,
+        available_slots: ["10:00 AM", "04:00 PM", "08:00 PM"],
+        description: "Indoor badminton court with smooth flooring.",
+        owner_email: "admin@sportnest.com",
+        booking_count: 0,
+      },
+      {
+        name: "Shuttle Pro Arena",
+        facility_type: "Badminton",
+        image: "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea",
+        location: "Mohammadpur, Dhaka",
+        price_per_hour: 650,
+        capacity: 4,
+        available_slots: ["09:00 AM", "01:00 PM", "06:00 PM"],
+        description: "Clean indoor court for badminton players.",
+        owner_email: "admin@sportnest.com",
+        booking_count: 0,
+      },
+      {
+        name: "Ace Tennis Court",
+        facility_type: "Tennis",
+        image: "https://images.unsplash.com/photo-1622279457486-62dcc4a431d6",
+        location: "Gulshan, Dhaka",
+        price_per_hour: 1300,
+        capacity: 4,
+        available_slots: ["07:00 AM", "11:00 AM", "05:00 PM"],
+        description: "Outdoor tennis court with professional surface.",
+        owner_email: "admin@sportnest.com",
+        booking_count: 0,
+      },
+      {
+        name: "CourtSide Tennis Club",
+        facility_type: "Tennis",
+        image: "https://images.unsplash.com/photo-1554068865-24cecd4e34b8",
+        location: "Baridhara, Dhaka",
+        price_per_hour: 1400,
+        capacity: 4,
+        available_slots: ["08:00 AM", "02:00 PM", "07:00 PM"],
+        description: "Premium tennis court for singles and doubles games.",
+        owner_email: "admin@sportnest.com",
+        booking_count: 0,
+      },
+      {
+        name: "BlueWave Swimming Pool",
+        facility_type: "Swimming",
+        image: "https://images.unsplash.com/photo-1572331165267-854da2b10ccc",
+        location: "Farmgate, Dhaka",
+        price_per_hour: 1000,
+        capacity: 20,
+        available_slots: ["06:00 AM", "12:00 PM", "04:00 PM"],
+        description: "Clean swimming pool with safe changing facilities.",
+        owner_email: "admin@sportnest.com",
+        booking_count: 0,
+      },
+      {
+        name: "AquaFit Swim Center",
+        facility_type: "Swimming",
+        image: "https://images.unsplash.com/photo-1560089000-7433a4ebbd64",
+        location: "Banasree, Dhaka",
+        price_per_hour: 950,
+        capacity: 18,
+        available_slots: ["07:00 AM", "03:00 PM", "06:00 PM"],
+        description: "Modern swimming facility for fitness and training.",
+        owner_email: "admin@sportnest.com",
+        booking_count: 0,
+      },
+      {
+        name: "HoopZone Basketball Court",
+        facility_type: "Basketball",
+        image: "https://images.unsplash.com/photo-1546519638-68e109498ffc",
+        location: "Mohakhali, Dhaka",
+        price_per_hour: 1100,
+        capacity: 10,
+        available_slots: ["09:00 AM", "05:00 PM", "09:00 PM"],
+        description: "Spacious basketball court for casual and team games.",
+        owner_email: "admin@sportnest.com",
+        booking_count: 0,
+      },
+      {
+        name: "Urban Hoops Arena",
+        facility_type: "Basketball",
+        image: "https://images.unsplash.com/photo-1505666287802-931dc83a36e1",
+        location: "Wari, Dhaka",
+        price_per_hour: 1000,
+        capacity: 10,
+        available_slots: ["08:00 AM", "01:00 PM", "07:00 PM"],
+        description: "Outdoor basketball court with a friendly game setup.",
+        owner_email: "admin@sportnest.com",
+        booking_count: 0,
+      },
+    ];
+
+    const result = await facilityCollection.insertMany(facilities);
+      res.send(result);
+      });
 
     app.get('/all-facilities', async (req, res) => {
       const { search, category } = req.query;
@@ -195,7 +346,7 @@ app.delete('/all-facilities/:id', middleware, async (req, res) => {
 run().catch(console.dir);
 
 app.get('/', (req, res) => {
-  res.send('SportNest Server is running')
+  res.send('SportNest server is running')
 })
 
 app.listen(port, () => {

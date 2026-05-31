@@ -195,9 +195,9 @@ app.delete('/all-facilities/:id', middleware, async (req, res) => {
 run().catch(console.dir);
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('SportNest Server is running')
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`The server listening on port ${port}`)
 })

@@ -282,7 +282,15 @@ async function run() {
     });
 
     app.post('/all-facilities', middleware, async (req, res) => {
-      const add = req.body
+      const add = req.body;
+
+      if (typeof add.available_slots === 'string') {
+        add.available_slots = add.available_slots
+          .split(',')
+          .map(s => s.trim())
+          .filter(Boolean);
+      }
+
       const result = await facilityCollection.insertOne(add);
       res.json(result)
     })
@@ -292,7 +300,7 @@ async function run() {
       res.json(result)
     })
 
-    app.get('/all-facilities/:id', middleware, async (req, res) => {
+    app.get('/all-facilities/:id', async (req, res) => {
       const id = req.params.id
 
       const query = {
@@ -311,6 +319,13 @@ async function run() {
   if (!facility) return res.status(404).json({ message: "Not found" });
   if (facility.owner_email !== email) {
     return res.status(403).json({ message: "Forbidden" });
+  }
+
+  if (typeof req.body.available_slots === 'string') {
+  req.body.available_slots = req.body.available_slots
+    .split(',')
+    .map(s => s.trim())
+    .filter(Boolean);
   }
 
   const result = await facilityCollection.updateOne(

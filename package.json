@@ -1,0 +1,27 @@
+{
+  "name": "sportnest-server",
+  "version": "1.0.0",
+  "description": "SportNest server API",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-auth": "^1.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.2",
+    "jose-cjs": "^6.2.3",
+    "jsonwebtoken": "^9.0.0",
+    "mongodb": "^7.2.0",
+    "mongoose": "^7.0.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

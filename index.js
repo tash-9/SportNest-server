@@ -67,7 +67,7 @@ async function run() {
     const facilityCollection = database.collection('facility')
     const bookingCollection = database.collection('booking')
 
-    app.post("/seed-facilities", async (req, res) => {
+    app.post("/seed-facilities",middleware, async (req, res) => {
     const facilities = [
       {
         name: "Elite Football Turf",
@@ -290,6 +290,8 @@ async function run() {
           .map(s => s.trim())
           .filter(Boolean);
       }
+
+      add.owner_email = req.user.email;
 
       const result = await facilityCollection.insertOne(add);
       res.json(result)

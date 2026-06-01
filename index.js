@@ -273,7 +273,7 @@ app.get("/all-facilities", async (req, res) => {
     }
 
     if (category) {
-      conditions.push({ facility_type: category });
+      conditions.push({ facility_type: { $regex: category, $options: "i"}});
     }
 
     if (conditions.length > 0) {

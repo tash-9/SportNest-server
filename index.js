@@ -43,6 +43,10 @@ let isConnected = false;
 let facilityCollection;
 let bookingCollection;
 
+function escapeRegExp(value = "") {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 async function getCollections() {
   if (!uri) {
     throw new Error("MONGODB_URI is missing");
@@ -65,9 +69,10 @@ async function getCollections() {
   };
 }
 
-const JWKS = createRemoteJWKSet(
-  new URL(`${process.env.CLIENT_URI}/api/auth/jwks`)
-);
+const authBaseUrl =
+  process.env.CLIENT_URI || process.env.CLIENT_LIVE_URL || "http://localhost:3000";
+
+const JWKS = createRemoteJWKSet(new URL("/api/auth/jwks", authBaseUrl));
 
 const middleware = async (req, res, next) => {
   const header = req.headers.authorization;
@@ -253,7 +258,44 @@ app.post("/seed-facilities", async (req, res) => {
   }
 });
 
-app.get("/all-facilities",
+app.get("/all-facilities", async (req, res) => {
+  try {
+    const { facilityCollection } = await getCollections();
+
+    const search = String(req.query.search || "").trim();
+    const category = String(req.query.category || "").trim();
+
+    const query = {};
+
+    if (category) {
+      query.facility_type = category;
+    }
+
+    if (search) {
+      const safeSearch = escapeRegExp(search);
+      const searchRegex = new RegExp(safeSearch, "i");
+
+      query.$or = [
+        { name: searchRegex },
+        { facility_type: searchRegex },
+        { location: searchRegex },
+        { description: searchRegex },
+      ];
+    }
+
+    const result = await facilityCollection
+      .find(query)
+      .sort({ _id: -1 })
+      .toArray();
+
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({
+      message: "Failed to load facilities",
+      error: err.message,
+    });
+  }
+});
 
 app.get("/featured-facilities", async (req, res) => {
   try {

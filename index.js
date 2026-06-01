@@ -68,6 +68,14 @@ const middleware = async (req, res, next) => {
   }
 };
 
+app.get("/health", async (req, res) => {
+  res.json({
+    message: "Server is alive",
+    mongodb: process.env.MONGODB_URI ? "MONGODB_URI exists" : "MONGODB_URI missing",
+    clientUri: process.env.CLIENT_URI || "CLIENT_URI missing",
+  });
+});
+
 async function run() {
   try {
     await client.connect();

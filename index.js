@@ -253,42 +253,7 @@ app.post("/seed-facilities", async (req, res) => {
   }
 });
 
-app.get("/all-facilities", async (req, res) => {
-  try {
-    const { facilityCollection } = await getCollections();
-
-    const { search, category } = req.query;
-
-    let query = {};
-    const conditions = [];
-
-    if (search) {
-      conditions.push({
-        $or: [
-          { name: { $regex: search, $options: "i" } },
-          { facility_type: { $regex: search, $options: "i" } },
-          { location: { $regex: search, $options: "i" } },
-        ],
-      });
-    }
-
-    if (category) {
-      conditions.push({ facility_type: { $regex: category, $options: "i"}});
-    }
-
-    if (conditions.length > 0) {
-      query = conditions.length === 1 ? conditions[0] : { $and: conditions };
-    }
-
-    const result = await facilityCollection.find(query).toArray();
-    res.json(result);
-  } catch (err) {
-    res.status(500).json({
-      message: "Failed to load facilities",
-      error: err.message,
-    });
-  }
-});
+app.get("/all-facilities",
 
 app.get("/featured-facilities", async (req, res) => {
   try {

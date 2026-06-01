@@ -99,29 +99,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/health", async (req, res) => {
-  res.json({
-    message: "Server is alive",
-    mongodb: process.env.MONGODB_URI ? "MONGODB_URI exists" : "MONGODB_URI missing",
-    clientUri: process.env.CLIENT_URI || "CLIENT_URI missing",
-    clientLiveUrl: process.env.CLIENT_LIVE_URL || "CLIENT_LIVE_URL missing",
-  });
-});
-
-app.get("/db-test", async (req, res) => {
-  try {
-    const { facilityCollection } = await getCollections();
-    const facilityCount = await facilityCollection.countDocuments();
-
-    res.json({
-      message: "MongoDB connected",
-      facilityCount,
-    });
-  } catch (err) {
-    res.status(500).json({
-      message: "MongoDB connection failed",
-      error: err.message,
-    });
-  }
+  res.json({ message: "Server is alive" });
 });
 
 app.post("/seed-facilities", async (req, res) => {
